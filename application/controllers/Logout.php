@@ -1,0 +1,19 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Logout extends CI_Controller {
+
+	public function __construct() {
+		parent::__construct();
+		date_default_timezone_set("Asia/Kolkata");
+		
+		if(!$this->session->userdata('logged_in_adminw1')) {
+			redirect(base_url());
+		}
+ 	}
+	
+	function index() {
+		$this->session->unset_userdata('logged_in_adminw1');
+		redirect(base_url());
+	}
+}
