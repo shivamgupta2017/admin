@@ -81,42 +81,38 @@
                           </select>
                       </div>
 
-
-
-                         <div col-md-6 style="float:right"><a class="btn btn-sm bg-olive show-vendorModel" href="javascript:void(0);" data-id="">
-                              <i class="fa fa-fw fa-eye"></i> Add New Vendor </a>
-                         </div>
-                               <br>
-						            <div class="form-group has-feedback">
+						            <!-- <div class="form-group has-feedback">
                            <label for="exampleInputEmail1">Quantity</label>
                             <input type="text" class="form-control" data-parsley-trigger="change"	
                             data-parsley-minlength="1" id="quantity" placeholder="quantity">
                            <span class="glyphicon  form-control-feedback"></span>
-                        </div>
+                        </div> -->
                         
-                         <div class="form-group has-feedback">
+                         <!-- <div class="form-group has-feedback">
                                <label for="exampleInputEmail1">Cost Price</label>
                                 <input type="text" class="form-control " data-parsley-trigger="change"	
                                 data-parsley-minlength="1" id="cost_price" placeholder="purchase price">
                                 <span class="glyphicon  form-control-feedback"></span>
-                          </div>
+                          </div> -->
 
-                      <div class="form-group has-feedback">
+                      <!-- <div class="form-group has-feedback">
                            <label for="exampleInputEmail1">Selling Price</label>
                             <input type="text" class="form-control" data-parsley-trigger="change"  
                             data-parsley-minlength="1" id="selling_price" placeholder="selling price">
                             <span class="glyphicon  form-control-feedback"></span>
-                      </div>
+                      </div> -->
 
                       <div class="box-footer">
                           <button type="button" id="add" class="btn btn-primary" >ADD</button>
                       </div>
 
 
-    					         <div class="box-footer" style="float:right">
-                         <button type="submit" class="btn btn-primary">Submit</button>
-                      </div>             
+    					         
               </div>   
+                          <div col-md-6 style="float:right; margin-bottom: 10%; margin-top: 2%;"><a class="btn btn-sm bg-olive show-vendorModel" href="javascript:void(0);" data-id="">
+                              <i class="fa fa-fw fa-eye"></i> Add New Vendor </a>
+                         </div>
+
                     <input type="hidden" name="option_count" id="option_count" value="<?php if(isset($item_options) && count($item_options)>0) echo count($item_options)+1; else echo "1";?>">
 				            <input type="hidden" name="option_counts" id="option_counts">
                         <div class="col-md-6">
@@ -145,51 +141,58 @@
                                           <option value=1>Cash</option>
                                       </select><br>
                               	</div>
+                                <div class="box-footer" style="float:right;">
+                                   <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
                            </div>
-                    <table class="table table-bordered" id="first">
+                         </div>
+
+                    <table class="table table-bordered" id="first" hidden>
                       <thead>
                         <tr>
                           <th>#</th>
                           <th style="width: auto;">Product Name</th>
                            <th>Quantity</th>
                             <th>Cost price</th>
-                            <th>sell price</th>
-                             <!-- <th>Total</th> -->
+                            <th>Selling price</th>
+                            <th>Action</th>
                         </tr>
                       </thead>
                       <tbody>
                       </tbody>
                             </table>
-                        </div>
                         <hr>
                </form>
             </div>
 			<script>
+
+         var check_array =[];
+
 			$(document).ready(function()
       {
 
-        
-
 		  $('#vendor').on('change',function()
+      
       {
 
     		var vendor_id =  $('#vendor').val();
     		$('#vendor_id').val(vendor_id);
       });
 
-			   var check_array =[];
+			  /* var check_array =[];*/
 			   var grand_total=0;
 			    $('#add').on('click',function()
           {
 
-			        var select = $('#product_id').val().split('&');
-			        var quantity = $('#quantity').val();
-			        var cost = $('#cost_price').val();
 
-              var selling_price=$('#selling_price').val();
+			        var select = $('#product_id').val().split('&');
+              var quantity = 1;//$('#quantity').val();
+			        var cost = null;//$('#cost_price').val();
+              var selling_price=null;//$('#selling_price').val();
 			        total = quantity*cost;
 			        grand_total = grand_total +total;
-              if((select[0] =='')||(cost=='')||(quantity==''||(selling_price=='')))
+              
+              if((select[0] ==''))
               {
 			            alertify.error("Missing input");
 			        }
@@ -202,38 +205,61 @@
 
 
                    check_array.push(select[0]);
-
 			             var cnt=$("#option_count").val();
               	   var ncnt = cnt;
               	   var sno = cnt;
               	   $('#grand_total').html('');
   		             $('#grand_total').append(grand_total);
-              	   $('#first tr').last().after('<tr style="background-color:#4a4f56;"><td><input style="width:40px;background-color:#e7e7e7;text-align:center" type="text" readonly name="item_id'+ncnt+'" id="item_id'+ncnt+'" value="'+select[0]+'"></td><td><input type="text" readonly value="'+select[1]+'" name="product_name'+ncnt+'" id="product_name'+ncnt+'"><td><input style="width:70px;background-color:#e7e7e7;text-align:center;" type="text" readonly="" value="'+quantity+'" name="quantity'+ncnt+'" id="quantity'+ncnt+'"></td><td><input style="width:70px;background-color:#e7e7e7;text-align:center;" readonly="" type="text" value="'+cost+'" name="cost'+ncnt+'" id="cost'+ncnt+'"></td><td><input style="width:70px;background-color:#e7e7e7;text-align:center; readonly="" name="selling_price'+ncnt+'" type="text" value="'+selling_price+'" id="total'+ncnt+'"></td></tr>');
+
+
+              	   $('#first tr').last().after('<tr id="'+ncnt+'"><td><input style="width:40px; text-align:center" type="text" readonly name="item_id'+ncnt+'" id="item_id'+ncnt+'" value="'+select[0]+'"></td><td><input type="text" readonly value="'+select[1]+'" name="product_name'+ncnt+'" id="product_name'+ncnt+'"><td><input required style="width:70px; text-align:center;" type="number" min=1 value="'+quantity+'" name="quantity'+ncnt+'" id="quantity'+ncnt+'"></td><td><input required min=1 style="width:70px; text-align:center;" type="number" value="'+cost+'" name="cost'+ncnt+'" id="cost'+ncnt+'"></td><td><input required min=1 style="width:70px; text-align:center;"  name="selling_price'+ncnt+'" type="number" value="'+selling_price+'" id="selling_price'+ncnt+'"></td><td><button  style="width:70px; text-align: center;" type="button" class="close" aria-label="Close"><span onclick="delete_row('+ncnt+','+select[0]+')" aria-hidden="true">&times;</span></button></td></tr>');
                           	   cnt=++cnt;
 
               	   $("#option_count").val(cnt);
               	   $("#option_counts").val(cnt);
-                   $('#product_id').val('');
                    $('#selling_price').val('');
                    $('#cost_price').val('');
       			       $('#quantity').val('');
+                   $('#first').show();
+
 
 
             }
 			    })
+
+          
+         
 			    function in_array(search, array)
-  {
-	  for (i = 0; i < array.length; i++)
-	  {
-		if(array[i] ==search )
-		{
-			return true;
-		}
-	  }
-	  return false;
-  }
-			})
-		
+          {
+        	  for (i = 0; i < array.length; i++)
+        	  {
+          		if(array[i] ==search )
+          		{
+          			return true;
+          		}
+        	  }
+        	  return false;
+          }
+        			})
+
+
+
+        function delete_row(ncnt, product_id)
+        {
+
+          for (var i = 0; i < check_array.length; i++) 
+          {
+            if(check_array[i]==product_id){
+
+              check_array.splice(i, 1);
+            }
+          }
+
+          
+          $("#first tr:eq("+ncnt+")").remove();
+
+        }
+        		
 </script>
             <!-- /.box -->
          </div>

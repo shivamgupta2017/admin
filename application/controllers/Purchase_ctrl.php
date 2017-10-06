@@ -34,10 +34,10 @@ class Purchase_ctrl extends CI_Controller {
 		 $template['vendor'] =$this->basic->get_data('{PRE}vendor','','*');
 		 
 
-		// $hashSequence = 'gtKFFx|shivamguptatesting123456|10.0|oxygenconcentrator|shivam|shivamgupta1430@gmail.com|||||||||||eCwWELxi';
-		// $hash=strtolower(hash('sha512', $hashSequence));
+		/*$hashSequence = 'gtKFFx|shivamguptatesting12345678|10.0|oxygenconcentrator|shivam|shivamgupta1430@gmail.com|||||||||||eCwWELxi';
+		$hash=strtolower(hash('sha512', $hashSequence));
 
-		 //print_r($hash); die;
+		 print_r($hash); die;*/
 
 		 if($_POST)
 		 {
@@ -318,32 +318,15 @@ class Purchase_ctrl extends CI_Controller {
 
 				     $pur_id=$data['purchase_id'];
 			     	 $this->basic->update_purchase_data($pur_id);
-
-
 		     	} 
 		     	catch (Exception $e) 
 		     	{
 		     		
 		     	}
-
-
-
-
 		     }
-
-		     //reload
 		     $this->session->set_flashdata('message', array('message'=>"Added Succussfully",'class' => 'success'));
 		  		redirect('Purchase_ctrl/', 'refresh');
-
-
-
-
-
 		}
-
-
-
-
 	}
 	public function get_selected_products()
 	{

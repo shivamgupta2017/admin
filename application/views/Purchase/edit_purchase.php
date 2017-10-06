@@ -78,35 +78,33 @@
                           </select>
                       </div>
                                <br>
-						            <div class="form-group has-feedback">
+						            <!-- <div class="form-group has-feedback">
                            <label for="exampleInputEmail1">Quantity</label>
                             <input type="text" class="form-control" data-parsley-trigger="change"	
                             data-parsley-minlength="1" id="quantity" placeholder="quantity">
                            <span class="glyphicon  form-control-feedback"></span>
-                        </div>
+                        </div> -->
                         
-                         <div class="form-group has-feedback">
+                         <!-- <div class="form-group has-feedback">
                                <label for="exampleInputEmail1">Cost Price</label>
                                 <input type="text" class="form-control " data-parsley-trigger="change"	
                                 data-parsley-minlength="1" id="cost_price" placeholder="purchase price">
                                 <span class="glyphicon  form-control-feedback"></span>
-                          </div>
+                          </div> -->
 
-                      <div class="form-group has-feedback">
+                      <!-- <div class="form-group has-feedback">
                            <label for="exampleInputEmail1">Selling Price</label>
                             <input type="text" class="form-control" data-parsley-trigger="change"  
                             data-parsley-minlength="1" id="selling_price" placeholder="selling price">
                             <span class="glyphicon  form-control-feedback"></span>
-                      </div>
+                      </div> -->
 
                       <div class="box-footer">
                           <button type="button" id="add" class="btn btn-primary" >ADD</button>
                       </div>
 
 
-    					         <div class="box-footer" style="float:right">
-                         <button type="submit" class="btn btn-primary">Submit</button>
-                      </div>             
+    					                      
               </div>   
                     <input type="hidden" name="option_count" id="option_count" value="<?php if(isset($item_options) && count($item_options)>0) echo count($item_options)+1; else echo "1";?>">
 				            <input type="hidden" name="option_counts" id="option_counts">
@@ -137,6 +135,10 @@
                                       </select><br>
                               	</div>
                            </div>
+                           <div class="box-footer" style="float:right">
+                               <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
                     <table class="table table-bordered" id="first">
                       <thead>
                         <tr>
@@ -144,22 +146,22 @@
                           <th style="width: auto;">Product Name</th>
                            <th>Quantity</th>
                             <th>Cost price</th>
-                            <th>sell price</th>
-                             <!-- <th>Total</th> -->
+                            <th>Selling price</th>
+                            <th>Action</th>
                         </tr>
                       </thead>
                       <tbody>
                       </tbody>
                             </table>
-                        </div>
+                        
                         <hr>
                </form>
             </div>
 
 			<script>
-			$(document).ready(function()
+			 var check_array=[];
+      $(document).ready(function()
       {
-        var check_array=[];
         var g='<?php echo ($purchase_id);?>';
 
          $.ajax({
@@ -179,7 +181,7 @@
                         {
                           var ncnt = cnt;
                           var sno = cnt;
-                        $('#first tr').last().after('<tr style="background-color:#4a4f56;"><td><input style="width:40px;background-color:#e7e7e7;text-align:center" type="text" readonly name="item_id'+ncnt+'" id="item_id'+ncnt+'" value="'+data[i].product_id+'"></td><td><input type="text" readonly value="'+data[i].product_name+'" name="product_name'+ncnt+'" id="product_name'+ncnt+'"><td><input style="width:70px;background-color:#e7e7e7;text-align:center;" type="text" readonly="" value="'+data[i].product_id+'" name="quantity'+ncnt+'" id="quantity'+ncnt+'"></td><td><input style="width:70px;background-color:#e7e7e7;text-align:center;" readonly="" type="text" value="'+data[i].cost+'" name="cost'+ncnt+'" id="cost'+ncnt+'"></td><td><input style="width:70px;background-color:#e7e7e7;text-align:center; readonly="" name="selling_price'+ncnt+'" type="text" value="'+data[i].selling_price+'" id="total'+ncnt+'"></td></tr>');
+                        $('#first tr').last().after('<tr><td><input style="width:40px; text-align:center" readonly type="text" name="item_id'+ncnt+'" id="item_id'+ncnt+'" value="'+data[i].product_id+'"></td><td><input type="text" readonly value="'+data[i].product_name+'" name="product_name'+ncnt+'" id="product_name'+ncnt+'"><td><input style="width:70px; text-align:center;" type="text"  value="'+data[i].product_id+'" name="quantity'+ncnt+'" id="quantity'+ncnt+'"></td><td><input style="width:70px; text-align:center;" type="text" value="'+data[i].cost+'" name="cost'+ncnt+'" id="cost'+ncnt+'"></td><td><input style="width:70px; text-align:center; name="selling_price'+ncnt+'" type="text" value="'+data[i].selling_price+'" id="total'+ncnt+'"></td><td><button  style="width:70px; text-align: center;" type="button" class="close" aria-label="Close"><span onclick="delete_row('+ncnt+','+data[i].product_id+')" aria-hidden="true">&times;</span></button></td></tr>');
 
                         /*$('#first tr').last().after('<tr style="background-color:#4a4f56;"><th style="color:white">'+sno+'</th><td><input type="text" readonly name=option_id'+ncnt+'></td><td><input type="text" readonly name="option_name'+ncnt+'" id="option_name'+ncnt+'" value="'+data[i].product_name+'"></td><td><input type="hidden" readonly value="'+data[i]['unit_id']+'" name="option_id'+ncnt+'" id="option_id'+ncnt+'"><input style="width:70px;background-color:#e7e7e7;text-align:center;" type="text" value="'+data[i].quantity+'" name="price'+ncnt+'" id="price'+ncnt+'"></td><td><input style="width:70px;background-color:#e7e7e7;text-align:center;" type="text" value="'+data[i].cost+'" name="weight'+ncnt+'" id="weight'+ncnt+'"></td><td><input style="width:70px;background-color:#e7e7e7;text-align:center;" type="text" value="'+data[i].selling_price+'" name="max_quantity'+ncnt+'" id="max_quantity'+ncnt+'"></td></tr>');*///<input style="margin-left:10px" type="button" onclick="SomeDeleteRowFunction(this)" value="X">
                               cnt=++cnt;
@@ -221,13 +223,12 @@
               {
 
                    check_array.push(select[0]);
-
 			             var cnt=$("#option_count").val();
               	   var ncnt = cnt;
               	   var sno = cnt;
               	   $('#grand_total').html('');
   		             $('#grand_total').append(grand_total);
-              	   $('#first tr').last().after('<tr style="background-color:#4a4f56;"><td><input style="width:40px;background-color:#e7e7e7;text-align:center" type="text" readonly name="item_id'+ncnt+'" id="item_id'+ncnt+'" value="'+select[0]+'"></td><td><input type="text" readonly value="'+select[1]+'" name="product_name'+ncnt+'" id="product_name'+ncnt+'"><td><input style="width:70px;background-color:#e7e7e7;text-align:center;" type="text" readonly="" value="'+quantity+'" name="quantity'+ncnt+'" id="quantity'+ncnt+'"></td><td><input style="width:70px;background-color:#e7e7e7;text-align:center;" readonly="" type="text" value="'+cost+'" name="cost'+ncnt+'" id="cost'+ncnt+'"></td><td><input style="width:70px;background-color:#e7e7e7;text-align:center; readonly="" name="selling_price'+ncnt+'" type="text" value="'+selling_price+'" id="total'+ncnt+'"></td></tr>');
+              	   $('#first tr').last().after('<tr><td><input style="width:40px; text-align:center" type="text" name="item_id'+ncnt+'" id="item_id'+ncnt+'" value="'+select[0]+'"></td><td><input type="text" readonly value="'+select[1]+'" name="product_name'+ncnt+'" id="product_name'+ncnt+'"><td><input style="width:70px; text-align:center;" type="text" required  value="1" name="quantity'+ncnt+'" id="quantity'+ncnt+'"></td><td><input style="width:70px; text-align:center;" required type="text" value="1" name="cost'+ncnt+'" id="cost'+ncnt+'"></td><td><input style="width:70px; text-align:center; name="selling_price'+ncnt+'" required type="text" value="1" id="total'+ncnt+'"></td><td><button  style="width:70px; text-align: center;" type="button" class="close" aria-label="Close"><span onclick="delete_row('+ncnt+','+select[0]+')" aria-hidden="true">&times;</span></button></td></tr>');
                           	   cnt=++cnt;
 
               	   $("#option_count").val(cnt);
@@ -253,7 +254,22 @@
         	  return false;
           }
 			})
-		
+		  
+      function delete_row(ncnt, product_id)
+        {;
+          for (var i = 0; i < check_array.length; i++) 
+          {
+            if(check_array[i]==product_id){
+              check_array.splice(i, 1);
+            }
+          }
+          if(check_array.length == ''){
+               $("#first tr:eq(1)").remove();
+               $("#option_count").val('1');
+             }
+             else{$("#first tr:eq("+ncnt+")").remove();}
+        }
+
 </script>
             <!-- /.box -->
          </div>
