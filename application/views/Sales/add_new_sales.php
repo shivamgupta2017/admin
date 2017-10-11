@@ -83,41 +83,44 @@
                          <div col-md-6 style="float:right"><a class="btn btn-sm bg-olive show-vendorModel" href="javascript:void(0);" data-id="">
                               <i class="fa fa-fw fa-eye"></i> Add New Vendor </a></div>
                                <br>
-						<div class="form-group has-feedback">
+						             <!-- <div class="form-group has-feedback">
                            <label for="exampleInputEmail1">Quantity</label>
                             <input type="text" class="form-control" data-parsley-trigger="change"	
                             data-parsley-minlength="1"  id="quantity" placeholder="Quantity">
                            <span class="glyphicon  form-control-feedback"></span>
-                        </div>
+                        </div> -->
                         
                         <div class="box-footer">
                             <button type="button" id="add" class="btn btn-primary" >ADD</button>
                       </div>    
-					         <div class="box-footer" style="float:right">
-                     <button type="submit" class="btn btn-primary">Submit</button>
-                  </div>             
+					                      
                         </div>   
                     <input type="hidden" name="option_count" id="option_count" value="<?php if(isset($item_options) && count($item_options)>0) echo count($item_options)+1; else echo "1";?>">
 				    <input type="hidden" name="option_counts" id="option_counts">
                         <div class="col-md-6">
                             <div class="col-sm-6">
-        	<div class="well">
-            	<h4>Grand Total: <span id="grand_total"></span></h4>
-        		<h5>Payment Method</h5>
-                <select required name="payment_method" class="form-control">
-                	<option value=''>Select payment method</option>
-                    <option value=0>Credit</option>
-                    <option value=1>Cash</option>
-                </select><br>
-        	</div>
-        </div>
+                              	<div class="well">
+                                  	<h4>Grand Total: <span id="grand_total"></span></h4>
+                              		  <h5>Payment Method</h5>
+                                      <select required name="payment_method" class="form-control">
+                                      	<option value=''>Select payment method</option>
+                                          <option value=0>Credit</option>
+                                          <option value=1>Cash</option>
+                                      </select><br>
+                              	</div>
+                            </div>
+
+                       </div>
+                       <div class="box-footer" style="float:right">
+                     <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
                     <table class="table table-bordered" id="first">
                       <thead>
                         <tr>
                           <th>#</th>
                           <th>Product Name</th>
                            <th>Quantity</th>
-                            <th>S. Price</th>
+                            <th>Selling Price</th>
                              <th>Tax</th>
                               <th>Total</th>
                         </tr>
@@ -126,7 +129,7 @@
                           
                           </tbody>
                             </table>
-                        </div>
+                        
                         <hr>
                </form>
             </div>
@@ -152,7 +155,7 @@
           {
 			        var select = $('#product_id').val().split('&');
              // alert('select :'+select);
-              var quantity = $('#quantity').val();
+              var quantity = 1;//$('#quantity').val();
               var cost = select[3]; 
               total = quantity*cost;
               grand_total = grand_total +total;
@@ -172,7 +175,7 @@
               	     var sno = cnt;
               	     $('#grand_total').html('');
   		               $('#grand_total').append(grand_total);
-                	   $('#first tr').last().after('<tr style="background-color:#4a4f56;"><td><input style="width:40px;background-color:#e7e7e7;text-align:center" type="text" readonly name="item_id'+ncnt+'" id="item_id'+ncnt+'" value="'+select[0]+'"></td><td><input type="text" style="width:100px;" readonly value="'+select[1]+'" name="product_name'+ncnt+'" id="product_name'+ncnt+'"><td><input style="width:50px;background-color:#e7e7e7;text-align:center;" type="text" readonly=""  value="'+quantity+'" name="quantity'+ncnt+'" id="quantity'+ncnt+'"></td><td><input style="width:70px;background-color:#e7e7e7;text-align:center;" readonly="" type="text" value="'+cost+'" name="cost'+ncnt+'" id="cost'+ncnt+'"></td><td><input style="width:70px;background-color:#e7e7e7;text-align:center;" readonly="" type="text" value="'+select[2]+'%" name="tax'+ncnt+'" id="tax'+ncnt+'"></td><td><input style="width: 70px;background-color:#e7e7e7;text-align:center;" type="text" readonly="" value="'+total+'" id="total'+ncnt+'"></td></tr>');
+                	   $('#first tr').last().after('<tr><td><input style="width:40px;text-align:center" type="text" readonly name="item_id'+ncnt+'" id="item_id'+ncnt+'" value="'+select[0]+'"></td><td><input type="text" style="width:100px;" readonly value="'+select[1]+'" name="product_name'+ncnt+'" id="product_name'+ncnt+'"><td><input style="width:50px; text-align:center;" type="number" min=1 required value="'+quantity+'" onchange="change_total('+ncnt+')" name="quantity'+ncnt+'" id="quantity'+ncnt+'"></td><td><input style="width:70px; text-align:center;" onchange="change_total('+ncnt+')" required type="text" value="'+cost+'" name="cost'+ncnt+'" id="cost'+ncnt+'"></td><td><input style="width:70px;  text-align:center;" readonly="" type="text" value="'+select[2]+'%" name="tax'+ncnt+'" id="tax'+ncnt+'"></td><td><input style="width: 70px; text-align:center;" type="text" readonly="" value="'+total+'" id="total'+ncnt+'"></td></tr>');
                             	   cnt=++cnt;
                      $("#option_count").val(cnt);
                      $("#option_counts").val(cnt);
@@ -194,6 +197,21 @@
           }
 			})
 		
+
+
+    function change_total(line_no)
+    {
+      
+      var x =document.getElementById("quantity"+line_no).value;
+      var y =document.getElementById("cost"+line_no).value;
+      var temp= document.getElementById("total"+line_no).value;
+      document.getElementById("total"+line_no).value=x*y;
+      
+      var gt=grand_total.innerHTML-temp+(x*y);
+      $('#grand_total').html('');
+      $('#grand_total').append(gt);
+
+    }
 </script>
             <!-- /.box -->
          </div>

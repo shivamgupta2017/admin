@@ -34,11 +34,11 @@ class Purchase_ctrl extends CI_Controller {
 		 $template['vendor'] =$this->basic->get_data('{PRE}vendor','','*');
 		 
 
-		/*$hashSequence = 'gtKFFx|shivamguptatesting12345678|10.0|oxygenconcentrator|shivam|shivamgupta1430@gmail.com|||||||||||eCwWELxi';
+/*		$hashSequence = '38e9tU45|8660018206|15.0|recharge|deepak|dpkchaudhary337@gmail.com|||||||||||0nqEhxlupf';
 		$hash=strtolower(hash('sha512', $hashSequence));
 
-		 print_r($hash); die;*/
-
+		 print_r($hash); die;
+*/
 		 if($_POST)
 		 {
 		 	 $temp_data2['payable_amount'] = 0;
