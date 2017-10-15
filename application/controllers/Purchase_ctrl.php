@@ -21,6 +21,7 @@ class Purchase_ctrl extends CI_Controller {
 		 $template['page'] = 'Purchase/view_purchase';
 		 $template['title'] = 'Purchase Orders';
 		 $join = array('{PRE}vendor'=>'{PRE}purchase.vendor_id = {PRE}vendor.vendor_id,inner');
+		
 		 $template['data'] =$this->basic->get_data('{PRE}purchase','','*',$join);
 		 //print_r(json_encode($template)); die;
 
@@ -28,10 +29,13 @@ class Purchase_ctrl extends CI_Controller {
 	}
 	public function add_new_purchase_order()
 	{
-	     $template['page'] = 'Purchase/add_new_purchase';
-		 $template['title'] = 'Purchase Orders';
-		 $template['products'] =$this->basic->get_data('{PRE}products','','*');
-		 $template['vendor'] =$this->basic->get_data('{PRE}vendor','','*');
+		$template['page'] = 'Purchase/add_new_purchase';
+		$template['title'] = 'Purchase Orders';
+		$where['where']=array('is_deleted'=>0);
+		
+		$template['products'] =$this->basic->get_data('{PRE}products',$where,'*');
+//		//print_r($this->db->last_query()); die;
+		$template['vendor'] =$this->basic->get_data('{PRE}vendor','','*');
 		 
 
 /*		$hashSequence = '38e9tU45|8660018206|15.0|recharge|deepak|dpkchaudhary337@gmail.com|||||||||||0nqEhxlupf';

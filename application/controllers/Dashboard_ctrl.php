@@ -22,6 +22,7 @@ class Dashboard_ctrl extends CI_Controller {
 	public function dashboard() 
 	{
 		/*$template['page'] = 'dashboard';
+
 		$template['page_title'] = "Dashboard";
 		//$template['shops'] = $this->dashboard_model->get_shops_count();
 		//$template['users'] = $this->dashboard_model->get_users_count();

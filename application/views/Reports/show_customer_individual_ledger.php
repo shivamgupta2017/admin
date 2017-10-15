@@ -109,14 +109,13 @@
                     if(item.receivable==0)
                     {
                       //receiving
-
                       balance-=parseInt(item.received);
                       data_append=data_append+'<td class="center">Receiving</td>';
                       data_append=data_append+'data<td class="center">'+item.received+'</td><td class="center">'+balance+'</td></tr>';
                     }
                     else
                     {
-                      //sale
+                      //sales order
                       balance+=parseInt(item.receivable);
                       data_append=data_append+'<td class="center">Sale Invoice</td>';
                       data_append=data_append+'data<td class="center">'+item.receivable+'</td><td class="center">'+balance+'</td></tr>';

@@ -28,12 +28,13 @@ class Sales_ctrl extends CI_Controller
 	}
 	public function add_new_sales()
 	{
-	     $template['page'] = 'Sales/add_new_sales';
-		 $template['title'] = 'Sales Orders';
-		 $join = array('{PRE}product_price'=>'{PRE}.product_price.product_id = {PRE}products.product_id,inner');
-		 $template['products'] =$this->basic->get_data('{PRE}products','','{PRE}products.*, {PRE}product_price.*', $join);
-		 $template['client'] =$this->basic->get_data('{PRE}users','','*');
-		 if($_POST)
+		$template['page'] = 'Sales/add_new_sales';
+		$template['title'] = 'Sales Orders';
+		$join = array('{PRE}product_price'=>'{PRE}.product_price.product_id = {PRE}products.product_id,inner');
+		$where['where']=array('is_deleted'=>0);
+		$template['products'] =$this->basic->get_data('{PRE}products',$where,'{PRE}products.*, {PRE}product_price.*', $join);
+		$template['client'] =$this->basic->get_data('{PRE}users','','*');
+		if($_POST)
 		 {
 		     $data = $this->basic->get_post_data();
 

@@ -74,7 +74,7 @@
                             foreach($products as $temp)
                             {
                             ?>
-                                <option value="<?php echo $temp->product_id.'&'.$temp->product_name;?>"><?php echo $temp->product_name;?></option>
+                                <option  value="<?php echo $temp->product_id.'&'.$temp->product_name;?>"><?php echo $temp->product_name;?></option>
                             <?php
                          }
                          ?> 
@@ -209,17 +209,17 @@
               	   var ncnt = cnt;
               	   var sno = cnt;
               	   $('#grand_total').html('');
-  		             $('#grand_total').append(grand_total);
+  		           $('#grand_total').append(grand_total);
 
 
-              	   $('#first tr').last().after('<tr id="'+ncnt+'"><td><input style="width:40px; text-align:center" type="text" readonly name="item_id'+ncnt+'" id="item_id'+ncnt+'" value="'+select[0]+'"></td><td><input type="text" readonly value="'+select[1]+'" name="product_name'+ncnt+'" id="product_name'+ncnt+'"><td><input required style="width:70px; text-align:center;" type="number" min=1 value="'+quantity+'" name="quantity'+ncnt+'" id="quantity'+ncnt+'"></td><td><input required min=1 style="width:70px; text-align:center;" type="number" value="'+cost+'" name="cost'+ncnt+'" id="cost'+ncnt+'"></td><td><input required min=1 style="width:70px; text-align:center;"  name="selling_price'+ncnt+'" type="number" value="'+selling_price+'" id="selling_price'+ncnt+'"></td><td><button  style="width:70px; text-align: center;" type="button" class="close" aria-label="Close"><span onclick="delete_row('+ncnt+','+select[0]+')" aria-hidden="true">&times;</span></button></td></tr>');
+              	   $('#first tr').last().after('<tr id="'+ncnt+'"><td><input style="width:40px; text-align:center" type="text" readonly name="item_id'+ncnt+'" id="item_id'+ncnt+'" value="'+select[0]+'"></td><td><input type="text" readonly value="'+select[1]+'" name="product_name'+ncnt+'" id="product_name'+ncnt+'"><td><input required style="width:70px; text-align:center;" type="number" min=1 value="'+quantity+'" onchange="change_price('+cnt+','+ncnt+')" name="quantity'+ncnt+'" id="quantity'+ncnt+'"></td><td><input required min=1 style="width:70px; text-align:center;" type="number" value="'+cost+'" onchange="change_price('+cnt+','+ncnt+')" name="cost'+ncnt+'" id="cost'+ncnt+'"></td><td><input required min=1 style="width:70px; text-align:center;"  name="selling_price'+ncnt+'" type="number" value="'+selling_price+'" id="selling_price'+ncnt+'"></td><td><button  style="width:70px; text-align: center;" type="button" class="close" aria-label="Close"><span onclick="delete_row('+ncnt+','+select[0]+')" aria-hidden="true">&times;</span></button></td></tr>');
                           	   cnt=++cnt;
 
               	   $("#option_count").val(cnt);
               	   $("#option_counts").val(cnt);
                    $('#selling_price').val('');
                    $('#cost_price').val('');
-      			       $('#quantity').val('');
+      			   $('#quantity').val('');
                    $('#first').show();
 
 
@@ -247,6 +247,10 @@
         function delete_row(ncnt, product_id)
         {
 
+        	var quantity=document.getElementById('quantity'+ncnt).value;
+			var cost_price=document.getElementById('cost'+ncnt).value;
+
+			var temp=quantity*cost_price;
           for (var i = 0; i < check_array.length; i++) 
           {
             if(check_array[i]==product_id){
@@ -258,6 +262,33 @@
           
           $("#first tr:eq("+ncnt+")").remove();
 
+			var pqrs=document.getElementById('grand_total').innerHTML;
+			$('#grand_total').html('');
+  		   	$('#grand_total').append(pqrs-temp);
+
+        }
+
+        function change_price(cnt ,ncnt)
+        {
+			
+
+			var quantity=document.getElementById('quantity'+ncnt).value;
+			var cost_price=document.getElementById('cost'+ncnt).value;
+			if((quantity!='') && (cost_price!=''))
+			{
+				//var temp=grand_total.innerHTML;
+				var temp=0;
+				for(var i=1; i<=cnt; i++)
+				{
+					var quantity=document.getElementById('quantity'+i).value;
+					var cost_price=document.getElementById('cost'+i).value;
+					temp+=quantity*cost_price;
+				}
+				$('#grand_total').html('');
+  		        $('#grand_total').append(temp);
+
+
+			}
         }
         		
 </script>

@@ -224,49 +224,62 @@ class basic extends CI_Model
         // if($this->db->field_exists('deleted',$table) && $show_deleted==0)
         // $where['where'][$col_name]="0";
     
+		try
+		{
 
+		        $this->db->select($select);
+	        	$this->db->from($table);
+				if ($join!='') 
+				{
+	            		$this->generate_joining_clause($join);
+	      		}
+	      		if ($where!='') 
+	      		{
+	           		 $this->generate_where_clause($where);
+	        	}
+			
+			    if ($this->db->field_exists('deleted', $table)) 
+				{
+	            			$deleted_str=$table.".deleted";
+	            			$this->db->where($deleted_str, "0");
+	        	}
+	        
+			    if ($order_by!='') 
+			    {
+	          		  $this->db->order_by($order_by);
+	        	}
+		        if ($group_by!='') {
+		            $this->db->group_by($group_by);
+		        }       
+	        
+		        if (is_numeric($start) || is_numeric($limit)) {
+		            $this->db->limit($limit, $start);
+		        }
+	                    
+		        $query=$this->db->get();
+		        if ($csv==1) 
+		        {   
+		            
+		            return $query;
+		        } //csv generation requires resourse ID
 
-        $this->db->select($select);
-        $this->db->from($table);
-        
-        if ($join!='') {
-            $this->generate_joining_clause($join);
-        }
-        if ($where!='') {
-            $this->generate_where_clause($where);
-        }
+		        $result_array=$query->result(); //fetches the rows from database and forms an array[]
+	    	    if ($num_rows==1) {
+	            $num_rows=$query->num_rows(); //counts the affected number of rows
+	            $result_array['extra_index']=array('num_rows'=>$num_rows);    //addes the affected number of rows data in the array[]
+	        	}
+	        
+	        	// print_r($this->db->last_query());
+	        	return $result_array; //returns both fetched result as well as affected number of rowsv	
+		}
+		catch(Exception $e)
+		{
 
-        if ($this->db->field_exists('deleted', $table)) {
-            $deleted_str=$table.".deleted";
-            $this->db->where($deleted_str, "0");
-        }
-        
-        if ($order_by!='') {
-            $this->db->order_by($order_by);
-        }
-        if ($group_by!='') {
-            $this->db->group_by($group_by);
-        }       
-        
-        if (is_numeric($start) || is_numeric($limit)) {
-            $this->db->limit($limit, $start);
-        }
-                    
-        $query=$this->db->get();
-        if ($csv==1) 
-        {   
-            
-            return $query;
-        } //csv generation requires resourse ID
+			show_404($page = $e, $log_error = TRUE);
+		}
 
-        $result_array=$query->result(); //fetches the rows from database and forms an array[]
-        if ($num_rows==1) {
-            $num_rows=$query->num_rows(); //counts the affected number of rows
-            $result_array['extra_index']=array('num_rows'=>$num_rows);    //addes the affected number of rows data in the array[]
-        }
         
-        // print_r($this->db->last_query());
-        return $result_array; //returns both fetched result as well as affected number of rows		
+     	
     }
 
 
